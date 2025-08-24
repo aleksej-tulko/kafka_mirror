@@ -42,7 +42,7 @@ services:
 
  dummy-generation:
    image: confluentinc/cp-kafka
-   command: bash -c "cub kafka-ready -z zookeeper-source:2181 1 30 && sleep 5 && seq 10000 | kafka-console-producer --bootstrap-server kafka-source:9092 --topic topic-to-mirror"
+   command: bash -c "cub kafka-ready --bootstrap-server kafka-source:9092 1 30 && sleep 5 && seq 10000 | kafka-console-producer --bootstrap-server kafka-source:9092 --topic topic-to-mirror"
    depends_on:
      - zookeeper-source
      - kafka-source

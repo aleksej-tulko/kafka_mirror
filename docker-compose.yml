@@ -36,7 +36,7 @@ services:
 
  topic-creation:
    image: confluentinc/cp-kafka:7.0.10
-   command: bash -c "cub kafka-ready -z zookeeper-source:2181 1 30 && kafka-topics --zookeeper zookeeper-source:2181 --create --topic topic-to-mirror --partitions 10 --replication-factor 1"
+   command: bash -c "cub kafka-ready -z zookeeper-source:2181 1 30 && kafka-topics --create --topic topic-to-mirror --partitions 10 --replication-factor 1 --bootstrap-server kafka-source:9092"
    depends_on:
      - zookeeper-source
 

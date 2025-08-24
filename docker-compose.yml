@@ -42,7 +42,7 @@ services:
 
  dummy-generation:
    image: confluentinc/cp-kafka
-   command: bash -c "cub kafka-ready -b kafka-source:9092 1 30 && sleep 5 && seq 10000 | kafka-console-producer --broker-list kafka-source:9092 --topic topic-to-mirror"
+   command: bash -c "cub kafka-ready -z zookeeper-source:2181 1 30 && sleep 5 && seq 10000 | kafka-console-producer --broker-list kafka-source:9092 --topic topic-to-mirror"
    depends_on:
      - zookeeper-source
      - kafka-source
@@ -52,7 +52,7 @@ services:
    volumes:
      - ./consumer.cfg:/etc/consumer.cfg
      - ./producer.cfg:/etc/producer.cfg
-   command: bash -c "cub kafka-ready -b kafka-source:9092 1 30 && cub kafka-ready -b kafka-destination:9092 1 30 && kafka-mirror-maker --consumer.config /etc/consumer.cfg --producer.config /etc/producer.cfg --whitelist topic-to-mirror --num.streams 1"
+   command: bash -c "cub kafka-ready -z zookeeper-source:2181 1 30 && cub kafka-ready -z zookeeper-destination:2181 1 30 && kafka-mirror-maker --consumer.config /etc/consumer.cfg --producer.config /etc/producer.cfg --whitelist topic-to-mirror --num.streams 1"
    depends_on:
      - kafka-source
      - kafka-destination
